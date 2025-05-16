@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>HTML5 Template</title>
+        <title>Skala Entertainment | Homepage</title>
         <link rel="icon" type="image/png" href="favicon.png">
         <link rel="stylesheet" href="assets/style.css">
     </head>
@@ -215,6 +215,7 @@ function sync(event) {
     case 'baklava basiklik':
     case 'yan yana adet':
     case 'alt alta adet':
+    case 'renk':
       deleteLines()
       newLines = createLines()
       wireframe = newLines.wireframe
@@ -298,7 +299,7 @@ function createLines() {
               lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
               lineGeometry.setIndex(edges);
               const lineMaterial = new THREE.LineBasicMaterial({
-              color: `rgb(${config.color.r}, ${config.color.g}, ${config.color.b})`
+              color: `rgb(${~~config.color.r}, ${~~config.color.g}, ${~~config.color.b})`
               });
               const wireframe = new THREE.LineSegments(lineGeometry, lineMaterial);
               wireframe.rotation.x = Math.PI / 180 * config.angleX
