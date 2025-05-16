@@ -299,12 +299,20 @@ function sync(event) {
   saveLocalStorage()
 }
 
-const btn = ctrl.addButton({
+const resetButton = ctrl.addButton({
   title: 'Reset',
   label: 'Fabrika ayarlari'
 })
 
-btn.on('click', () => {
+const exportButton = ctrl.addButton({
+  title: 'Export'
+})
+
+exportButton.on('click', () => {
+alert(JSON.stringify(config, null, 2))
+})
+
+resetButton.on('click', () => {
     for (let key in defaultConfig) {
         if (defaultConfig.hasOwnProperty(key)) {
             if (typeof defaultConfig[key] === 'object') {
