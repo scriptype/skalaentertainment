@@ -58,7 +58,9 @@
 
           import { Pane } from 'https://cdn.jsdelivr.net/npm/tweakpane@4.0.5/dist/tweakpane.min.js';
 
-const config = {
+const storedConfig = localStorage.getItem('config')
+
+const defaultConfig = {
   baklavaWidth: 16,
   baklavaHeight: 16,
   skewFactor: 1,
@@ -83,9 +85,16 @@ const config = {
   cameraZ: 10
 }
 
+const config = storedConfig ? JSON.parse(storedConfig) : {
+    ...defaultConfig,
+    color: {
+        ...defaultConfig.color
+    }
+}
+
 const ctrl = new Pane({
   title: 'baklava ayarları',
-  expanded: true,
+  expanded: config.isDefault,
 })
 
 ctrl.addBinding(config, 'baklavaWidth', {
@@ -207,8 +216,57 @@ ctrl.addBinding(config, 'cameraZ', {
   label: 'Kamera Z',
 })
 
+function syncBaklava() {
+  deleteLines()
+  const newLines = createLines()
+  wireframe = newLines.wireframe
+  lineGeometry = newLines.lineGeometry
+  scene.add(wireframe)
+}
+
+function syncRotateX() {
+  wireframe.rotation.x = Math.PI / 180 * config.angleX
+}
+
+function syncRotateZ() {
+  wireframe.rotation.z = Math.PI / 180 * config.angleZ
+}
+
+function syncCameraPanX() {
+  camera.position.x = config.cameraX
+  camera.updateProjectionMatrix()
+}
+
+function syncCameraPanY() {
+  camera.position.y = config.cameraY
+  camera.updateProjectionMatrix()
+}
+
+function syncCameraZ() {
+  camera.position.z = config.cameraZ
+  camera.updateProjectionMatrix()
+}
+
+function syncCameraFOV() {
+  camera.fov = config.cameraFOV
+  camera.updateProjectionMatrix()
+}
+
+function saveLocalStorage() {
+  localStorage.setItem('config', JSON.stringify(config))
+}
+
 function sync(event) {
-  let newLines
+  if (event.all) {
+    syncBaklava()
+    syncRotateX()
+    syncRotateZ()
+    syncCameraPanX()
+    syncCameraPanY()
+    syncCameraZ()
+    syncCameraFOV()
+    return
+  }
   switch (event.target.controller.view.labelElement.innerText) {
     case 'baklava en':
     case 'baklava boy':
@@ -216,36 +274,53 @@ function sync(event) {
     case 'yan yana adet':
     case 'alt alta adet':
     case 'renk':
-      deleteLines()
-      newLines = createLines()
-      wireframe = newLines.wireframe
-      lineGeometry = newLines.lineGeometry
-      scene.add(wireframe)
+      syncBaklava()
       break
     case 'X ekseninde cevir':
-      wireframe.rotation.x = Math.PI / 180 * config.angleX
+      syncRotateX()
       break
     case 'Z ekseninde cevir':
-      wireframe.rotation.z = Math.PI / 180 * config.angleZ
+      syncRotateZ()
       break
     case 'Kamera Pan X':
-      camera.position.x = config.cameraX
-      camera.updateProjectionMatrix()
+      syncCameraPanX()
       break
     case 'Kamera Pan Y':
-      camera.position.y = config.cameraY
-      camera.updateProjectionMatrix()
+      syncCameraPanY()
       break
     case 'Kamera Z':
-      camera.position.z = config.cameraZ
-      camera.updateProjectionMatrix()
+      syncCameraZ()
       break
     case 'Kamera FoV':
-      camera.fov = config.cameraFOV
-      camera.updateProjectionMatrix()
+      syncCameraFOV()
       break
   }
+  config.isDefault = false
+  saveLocalStorage()
 }
+
+const btn = ctrl.addButton({
+  title: 'Reset',
+  label: 'Fabrika ayarlari'
+})
+
+btn.on('click', () => {
+    for (let key in defaultConfig) {
+        if (defaultConfig.hasOwnProperty(key)) {
+            if (typeof defaultConfig[key] === 'object') {
+                config[key] = {
+                    ...defaultConfig[key]
+                }
+            } else {
+                config[key] = defaultConfig[key]
+            }
+        }
+    }
+    sync({ all: true })
+    ctrl.refresh()
+    config.isDefault = true
+    saveLocalStorage()
+})
 
 ctrl.on('change', sync)
 
