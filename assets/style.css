@@ -97,6 +97,16 @@ body {
 
 #baklawave {
     position: absolute;
+    animation: canvas-enter .5s forwards 1;
+}
+
+@keyframes canvas-enter {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 #baklava-symbols {
