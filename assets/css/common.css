@@ -127,6 +127,7 @@ body {
     font-variant: all-small-caps;
     letter-spacing: .05em;
     color: var(--accent);
+    font-size: .96em;
 }
 
 .content em {
