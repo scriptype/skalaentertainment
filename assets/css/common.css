@@ -1,12 +1,48 @@
+@font-face {
+    font-family: 'Faculty Glyphic';
+    src: url('../fonts/Faculty_Glyphic/FacultyGlyphic-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('../fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+    font-style: italic;
+}
+
 /* reset */
 body {
     margin: 0;
 }
 
 body {
-    background: #111;
+    --bg-color: hsl(
+        0, 0%, calc(
+            8% * min(1,
+                var(--scroll-y, 0) / (var(--vh, 1000) / 2)
+            )
+        )
+    );
+    --content-translate-start: -20dvh;
+    --content-translate-amount: 20dvh;
+    --footer-margin: calc(
+        var(--content-translate-start) -
+        var(--content-translate-amount)
+    );
+    background: var(--bg-color);
     color: #ccc;
-    font: normal 1.5rem/1.5 helvetica, arial, sans-serif;
+    font: normal 1.5rem/1.5 Inter, helvetica, arial, sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: "Faculty Glyphic", sans-serif;
 }
 
 /* svg utils */
@@ -26,11 +62,13 @@ body {
     content: "";
     position: absolute;
     inset: 0;
+    transform: translateY(1px);
     background: linear-gradient(
         to bottom,
         transparent 80%,
-        black
+        var(--bg-color)
     );
+    pointer-events: none;
 }
 
 .logo {
@@ -52,7 +90,7 @@ body {
 }
 
 .logo path[id*="entertainment"] {
-    --fill: gray;
+    --fill: #ccc;
 }
 
 #logo-skala-s1  { --i: 0; }
@@ -114,9 +152,70 @@ body {
 
 .content {
     --accent: #ea6;
+    --delay-distance: calc(var(--vh) / 10);
+    --delayed-scroll: calc(
+        max(
+            var(--delay-distance),
+            var(--scroll-y)
+        ) - var(--delay-distance)
+    );
+    --translate-scroll-target: calc(var(--vh) / 2);
+    --translate-start: var(--content-translate-start);
+    --translate-amount: var(--content-translate-amount);
+    --opacity-scroll-target: calc(var(--vh) / 4);
     width: clamp(15rem, 50rem, 80dvw);
     margin: 0 auto;
+    padding: 10dvh 0;
     font-size: max(13px, min(4dvw, 1em));
+    transform: translateY(
+        calc(
+            var(--translate-start) -
+            min(
+                var(--translate-amount),
+                var(--translate-amount) *
+                var(--delayed-scroll) /
+                var(--translate-scroll-target)
+            )
+        )
+    );
+    opacity: calc(
+        var(--delayed-scroll) /
+        var(--opacity-scroll-target)
+    );
+}
+
+.headline {
+    margin-bottom: 3em;
+    font-size: 1.3em;
+}
+
+.headline h1 {
+    font-size: 2.3em;
+    margin-bottom: 0;
+}
+
+.headline p {
+    text-wrap: balance;
+}
+
+#fun {
+    display: inline-block;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.headline h1:hover #fun {
+    scale: 1.1;
+    rotate: 3deg;
+    color: #fd5;
+}
+
+.content *:first-child {
+    margin-top: 0;
+}
+
+.content *:last-child {
+    margin-bottom: 0;
 }
 
 .content img {
@@ -186,4 +285,36 @@ body {
     fill: currentColor;
     vertical-align: middle;
     margin: -.1em .25em 0 0;
+}
+
+.main-footer {
+    margin-top: var(--footer-margin);
+    text-align: center;
+}
+
+.address, .phone, .twitter {
+    width: min(500px, 80dvw);
+    margin: 0 auto 1em;
+    font-size: .8em;
+    color: #bbb;
+}
+
+.address-icon,
+.phone-icon {
+    width: .9em;
+    fill: currentColor;
+}
+
+.twitter a {
+    color: currentColor;
+    text-decoration: none;
+}
+
+.signature {
+    padding: 2em;
+}
+
+.signature-icon {
+    width: 1.5em;
+    fill: white;
 }

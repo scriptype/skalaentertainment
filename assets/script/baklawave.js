@@ -20,7 +20,7 @@ const defaultConfig = {
   waveAmpY: 0.1,
   waveFreqX: 3,
   waveFreqY: 2.4,
-  angleX: -40,
+  angleX: -45,
   angleZ: 140,
   cameraFOV: 25,
   cameraX: 0,
@@ -35,129 +35,182 @@ const config = storedConfig ? JSON.parse(storedConfig) : {
   }
 }
 
-const ctrl = new Pane({
-  title: 'baklava ayarları',
-  expanded: config.isDefault,
-})
+let ctrl
+const fun = document.getElementById('fun')
+if (fun) {
+  fun.addEventListener('click', () => {
+    if (ctrl) {
+      return
+    }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+    setTimeout(() => {
+      initCtrl()
+    }, 300)
+  })
+}
 
-ctrl.addBinding(config, 'baklavaWidth', {
-  min: 1,
-  max: 100,
-  step: 1,
-  label: 'baklava en',
-})
+function initCtrl() {
+  ctrl = new Pane({
+    title: 'settings',
+    expanded: true,
+  })
 
-ctrl.addBinding(config, 'baklavaHeight', {
-  min: 1,
-  max: 100,
-  step: 1,
-  label: 'baklava boy',
-})
+  ctrl.addBinding(config, 'baklavaWidth', {
+    min: 1,
+    max: 100,
+    step: 1,
+    label: 'tile width',
+  })
 
-ctrl.addBinding(config, 'skewFactor', {
-  min: 0,
-  max: 5,
-  step: 0.1,
-  label: 'baklava basiklik',
-})
+  ctrl.addBinding(config, 'baklavaHeight', {
+    min: 1,
+    max: 100,
+    step: 1,
+    label: 'tile height',
+  })
 
-ctrl.addBinding(config, 'columns', {
-  min: 1,
-  max: 500,
-  step: 1,
-  label: 'alt alta adet',
-})
+  ctrl.addBinding(config, 'skewFactor', {
+    min: 0,
+    max: 5,
+    step: 0.1,
+    label: 'tile skew',
+  })
 
-ctrl.addBinding(config, 'rows', {
-  min: 1,
-  max: 500,
-  step: 1,
-  label: 'yan yana adet',
-})
+  ctrl.addBinding(config, 'columns', {
+    min: 1,
+    max: 500,
+    step: 1,
+    label: 'columns',
+  })
 
-ctrl.addBinding(config, 'color', {
-  min: 1,
-  max: 500,
-  step: 1,
-  label: 'renk',
-})
+  ctrl.addBinding(config, 'rows', {
+    min: 1,
+    max: 500,
+    step: 1,
+    label: 'rows',
+  })
 
-ctrl.addBinding(config, 'waveSpeed', {
-  min: 0.0001,
-  max: 0.03,
-  step: 0.00001,
-  label: 'hiz',
-})
+  ctrl.addBinding(config, 'color', {
+    min: 1,
+    max: 500,
+    step: 1,
+    label: 'color',
+  })
 
-ctrl.addBinding(config, 'waveAmpX', {
-  min: 0,
-  max: 1,
-  step: 0.01,
-  label: 'yatay dalga boyu',
-})
+  ctrl.addBinding(config, 'waveSpeed', {
+    min: 0.0001,
+    max: 0.03,
+    step: 0.00001,
+    label: 'speed',
+  })
 
-ctrl.addBinding(config, 'waveAmpY', {
-  min: 0,
-  max: 1,
-  step: 0.01,
-  label: 'dikey dalga boyu',
-})
+  ctrl.addBinding(config, 'waveAmpX', {
+    min: 0,
+    max: 1,
+    step: 0.01,
+    label: 'wavelength x',
+  })
 
-ctrl.addBinding(config, 'waveFreqX', {
-  min: 0,
-  max: 31.415,
-  step: 0.1,
-  label: 'yatay dalga frekans',
-})
+  ctrl.addBinding(config, 'waveAmpY', {
+    min: 0,
+    max: 1,
+    step: 0.01,
+    label: 'wavelength y',
+  })
 
-ctrl.addBinding(config, 'waveFreqY', {
-  min: 0,
-  max: 31.415,
-  step: 0.1,
-  label: 'dikey dalga frekans',
-})
+  ctrl.addBinding(config, 'waveFreqX', {
+    min: 0,
+    max: 31.415,
+    step: 0.1,
+    label: 'frequency x',
+  })
 
-ctrl.addBinding(config, 'angleX', {
-  min: -180,
-  max: 180,
-  step: 0.1,
-  label: 'X ekseninde cevir',
-})
+  ctrl.addBinding(config, 'waveFreqY', {
+    min: 0,
+    max: 31.415,
+    step: 0.1,
+    label: 'frequency y',
+  })
 
-ctrl.addBinding(config, 'angleZ', {
-  min: -180,
-  max: 180,
-  step: 0.1,
-  label: 'Z ekseninde cevir',
-})
+  ctrl.addBinding(config, 'angleX', {
+    min: -180,
+    max: 180,
+    step: 0.1,
+    label: 'rotate x',
+  })
 
-ctrl.addBinding(config, 'cameraX', {
-  min: -100,
-  max: 40,
-  step: 0.01,
-  label: 'Kamera Pan X',
-})
+  ctrl.addBinding(config, 'angleZ', {
+    min: -180,
+    max: 180,
+    step: 0.1,
+    label: 'rotate z',
+  })
 
-ctrl.addBinding(config, 'cameraY', {
-  min: -100,
-  max: 40,
-  step: 0.01,
-  label: 'Kamera Pan Y',
-})
+  ctrl.addBinding(config, 'cameraX', {
+    min: -100,
+    max: 40,
+    step: 0.01,
+    label: 'pan x',
+  })
 
-ctrl.addBinding(config, 'cameraFOV', {
-  min: 1,
-  max: 180,
-  step: 0.1,
-  label: 'Kamera FoV',
-})
+  ctrl.addBinding(config, 'cameraY', {
+    min: -100,
+    max: 40,
+    step: 0.01,
+    label: 'pan y',
+  })
 
-ctrl.addBinding(config, 'cameraZ', {
-  min: 0,
-  max: 100,
-  step: 0.01,
-  label: 'Kamera Z',
-})
+  ctrl.addBinding(config, 'cameraFOV', {
+    min: 1,
+    max: 180,
+    step: 0.1,
+    label: 'fov',
+  })
+
+  ctrl.addBinding(config, 'cameraZ', {
+    min: 0,
+    max: 100,
+    step: 0.01,
+    label: 'zoom',
+  })
+
+  const resetButton = ctrl.addButton({
+    title: 'Reset',
+    label: 'factory settings'
+  })
+
+  if (document.location.href.match(/\?design/)) {
+    const exportButton = ctrl.addButton({
+      title: 'Export'
+    })
+
+    exportButton.on('click', () => {
+      alert(JSON.stringify(config, null, 2))
+    })
+  }
+
+  resetButton.on('click', () => {
+    for (let key in defaultConfig) {
+      if (defaultConfig.hasOwnProperty(key)) {
+        if (typeof defaultConfig[key] === 'object') {
+          config[key] = {
+            ...defaultConfig[key]
+          }
+        } else {
+          config[key] = defaultConfig[key]
+        }
+      }
+    }
+    sync({ all: true })
+    ctrl.refresh()
+    saveLocalStorage()
+  })
+
+  ctrl.on('change', sync)
+}
 
 function syncBaklava() {
   deleteLines()
@@ -180,13 +233,13 @@ function syncCameraPanX() {
   camera.updateProjectionMatrix()
 }
 
-function syncCameraPanY() {
-  camera.position.y = config.cameraY
+function syncCameraPanY(cameraY) {
+  camera.position.y = cameraY || config.cameraY
   camera.updateProjectionMatrix()
 }
 
-function syncCameraZ() {
-  camera.position.z = config.cameraZ
+function syncCameraZ(cameraZ) {
+  camera.position.z = cameraZ || config.cameraZ
   camera.updateProjectionMatrix()
 }
 
@@ -211,69 +264,39 @@ function sync(event) {
     return
   }
   switch (event.target.controller.view.labelElement.innerText) {
-    case 'baklava en':
-    case 'baklava boy':
-    case 'baklava basiklik':
-    case 'yan yana adet':
-    case 'alt alta adet':
-    case 'renk':
+    case 'tile width':
+    case 'tile height':
+    case 'tile skew':
+    case 'columns':
+    case 'rows':
+    case 'color':
       syncBaklava()
       break
-    case 'X ekseninde cevir':
+    case 'rotate x':
       syncRotateX()
       break
-    case 'Z ekseninde cevir':
+    case 'rotate z':
       syncRotateZ()
       break
-    case 'Kamera Pan X':
+    case 'pan x':
       syncCameraPanX()
       break
-    case 'Kamera Pan Y':
+    case 'pan y':
       syncCameraPanY()
       break
-    case 'Kamera Z':
+    case 'zoom':
       syncCameraZ()
       break
-    case 'Kamera FoV':
+    case 'fov':
       syncCameraFOV()
       break
   }
-  config.isDefault = false
   saveLocalStorage()
 }
 
-const resetButton = ctrl.addButton({
-  title: 'Reset',
-  label: 'Fabrika ayarlari'
-})
+kicss.reportVariable('--vh', () => window.innerHeight)
 
-const exportButton = ctrl.addButton({
-  title: 'Export'
-})
-
-exportButton.on('click', () => {
-  alert(JSON.stringify(config, null, 2))
-})
-
-resetButton.on('click', () => {
-  for (let key in defaultConfig) {
-    if (defaultConfig.hasOwnProperty(key)) {
-      if (typeof defaultConfig[key] === 'object') {
-        config[key] = {
-          ...defaultConfig[key]
-        }
-      } else {
-        config[key] = defaultConfig[key]
-      }
-    }
-  }
-  sync({ all: true })
-  ctrl.refresh()
-  config.isDefault = true
-  saveLocalStorage()
-})
-
-ctrl.on('change', sync)
+window.addEventListener('scroll', onWindowScroll)
 
 // Scene setup
 const scene = new THREE.Scene()
@@ -292,6 +315,21 @@ const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setSize(window.innerWidth, window.innerHeight)
 baklawaveContainer.insertAdjacentElement('afterBegin', renderer.domElement)
 renderer.domElement.id = 'baklawave'
+
+function onWindowResize() {
+  const { innerWidth, innerHeight } = window
+  camera.aspect = innerWidth / innerHeight
+  camera.updateProjectionMatrix()
+  renderer.setSize(innerWidth, innerHeight)
+}
+
+function onWindowScroll() {
+  const { scrollTop, scrollHeight } = document.documentElement
+  const { innerHeight } = window
+  const progress = scrollTop / innerHeight
+  syncCameraPanY(-3 * progress)
+  syncCameraZ(config.cameraZ + -10 * progress)
+}
 
 function createLines() {
   // Generate parallelogram-shaped quads manually
@@ -378,3 +416,6 @@ function animate() {
 }
 
 animate()
+
+window.addEventListener('resize', onWindowResize)
+onWindowScroll()
