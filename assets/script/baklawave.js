@@ -54,7 +54,7 @@ if (fun) {
 
 function initCtrl() {
   ctrl = new Pane({
-    title: 'settings',
+    title: 'animation settings',
     expanded: true,
   })
 
