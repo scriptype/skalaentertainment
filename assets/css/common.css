@@ -76,6 +76,7 @@ h1, h2, h3 {
     margin: 0;
     width: clamp(300px, 700px, 60dvw);
     aspect-ratio: 4;
+    fill: white;
 }
 
 .logo path {
