@@ -1,7 +1,5 @@
 import * as THREE from './vendor/three.module.min.js'
 
-const storedConfig = localStorage.getItem('config')
-
 const defaultConfig = {
   baklavaWidth: 42,
   baklavaHeight: 16,
@@ -26,7 +24,7 @@ const defaultConfig = {
   cameraZ: 10
 }
 
-const config = storedConfig ? JSON.parse(storedConfig) : {
+const config = {
   ...defaultConfig,
   color: {
     ...defaultConfig.color
@@ -205,7 +203,6 @@ function initCtrl({ Pane }) {
     }
     sync({ all: true })
     ctrl.refresh()
-    saveLocalStorage()
   })
 
   ctrl.on('change', sync)
@@ -247,10 +244,6 @@ function syncCameraFOV() {
   camera.updateProjectionMatrix()
 }
 
-function saveLocalStorage() {
-  localStorage.setItem('config', JSON.stringify(config))
-}
-
 function sync(event) {
   if (event.all) {
     syncBaklava()
@@ -290,7 +283,6 @@ function sync(event) {
       syncCameraFOV()
       break
   }
-  saveLocalStorage()
 }
 
 kicss.reportVariable('--vh', () => window.innerHeight)
