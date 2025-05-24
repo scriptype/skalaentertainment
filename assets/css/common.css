@@ -202,7 +202,8 @@ h1, h2, h3 {
 #fun {
     display: inline-block;
     cursor: pointer;
-    transition: all .3s;
+    transition:
+        all .3s cubic-bezier(.68, -0.55, .27, 1.55);
 }
 
 .headline h1:hover #fun {
