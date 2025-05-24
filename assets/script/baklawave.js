@@ -1,5 +1,4 @@
 import * as THREE from './vendor/three.module.min.js'
-import { Pane } from './vendor/tweakpane.min.js'
 
 const storedConfig = localStorage.getItem('config')
 
@@ -45,13 +44,14 @@ if (fun) {
       top: 0,
       behavior: "smooth"
     })
-    setTimeout(() => {
-      initCtrl()
+    setTimeout(async () => {
+      const { Pane } = await import('./vendor/tweakpane.min.js')
+      initCtrl({ Pane })
     }, 300)
   })
 }
 
-function initCtrl() {
+function initCtrl({ Pane }) {
   ctrl = new Pane({
     title: 'animation settings',
     expanded: true,
