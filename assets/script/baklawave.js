@@ -4,22 +4,21 @@ import { Pane } from './vendor/tweakpane.min.js'
 const storedConfig = localStorage.getItem('config')
 
 const defaultConfig = {
-  baklavaWidth: 16,
+  baklavaWidth: 42,
   baklavaHeight: 16,
-  skewFactor: 1,
+  skewFactor: 1.0999999999999999,
   columns: 80,
   rows: 80,
   color: {
-    // 0x6686c6,
-    r: 102,
-    g: 134,
-    b: 198
+    r: 144.6686880469322,
+    g: 154.4582985162735,
+    b: 174.03751945495605
   },
-  waveSpeed: 0.001,
-  waveAmpX: 0.15,
-  waveAmpY: 0.1,
-  waveFreqX: 3,
-  waveFreqY: 2.4,
+  waveSpeed: 0.0009999999999999994,
+  waveAmpX: 0.49,
+  waveAmpY: 0.09999999999999999,
+  waveFreqX: 2.9999999999999996,
+  waveFreqY: 2.400000000000001,
   angleX: -45,
   angleZ: 140,
   cameraFOV: 25,
