@@ -30,8 +30,8 @@ body {
             )
         )
     );
-    --content-translate-start: -20dvh;
-    --content-translate-amount: 20dvh;
+    --content-translate-start: -20vh;
+    --content-translate-amount: 20vh;
     --footer-margin: calc(
         var(--content-translate-start) -
         var(--content-translate-amount)
@@ -52,7 +52,7 @@ h1, h2, h3 {
 
 /* entrance */
 .entrance {
-    height: 100dvh;
+    height: 100vh;
     display: grid;
     place-content: center;
     position: relative;
@@ -166,7 +166,7 @@ h1, h2, h3 {
     --opacity-scroll-target: calc(var(--vh) / 4);
     width: clamp(15rem, 50rem, 80dvw);
     margin: 0 auto;
-    padding: 10dvh 0;
+    padding: 10vh 0;
     font-size: max(13px, min(4dvw, 1em));
     transform: translateY(
         calc(
