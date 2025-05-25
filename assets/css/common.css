@@ -23,10 +23,15 @@ body {
 }
 
 body {
+    --background-scroll-target: calc(var(--vh, 1000) / 2);
+    --background-lightness-start: 0%;
+    --background-lightness-change: 8%;
     --bg-color: hsl(
         0, 0%, calc(
-            8% * min(1,
-                var(--scroll-y, 0) / (var(--vh, 1000) / 2)
+            var(--background-lightness-start) +
+            var(--background-lightness-change) *
+            min(1,
+                var(--scroll-y, 0) / var(--background-scroll-target)
             )
         )
     );
@@ -52,7 +57,8 @@ h1, h2, h3 {
 
 /* entrance */
 .entrance {
-    height: 100vh;
+    --height: 100vh;
+    height: var(--height);
     display: grid;
     place-content: center;
     position: relative;
@@ -179,9 +185,12 @@ h1, h2, h3 {
             )
         )
     );
-    opacity: calc(
-        var(--delayed-scroll) /
-        var(--opacity-scroll-target)
+    opacity: var(
+        --fixed-opacity,
+        calc(
+            var(--delayed-scroll) /
+            var(--opacity-scroll-target)
+        )
     );
 }
 

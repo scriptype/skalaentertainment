@@ -1,0 +1,18 @@
+body {
+    --background-scroll-target: calc(var(--vh, 1000) / 4);
+    --background-lightness-start: 6%;
+    --background-lightness-change: 2%;
+    --content-translate-amount: 0vh;
+}
+
+.entrance {
+    --height: 50vh;
+}
+
+.logo {
+    transform: translateY(-5vh);
+}
+
+.content {
+    --fixed-opacity: 1;
+}
