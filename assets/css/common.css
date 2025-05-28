@@ -194,33 +194,6 @@ h1, h2, h3 {
     );
 }
 
-.headline {
-    margin-bottom: 3em;
-    font-size: 1.3em;
-}
-
-.headline h1 {
-    font-size: 2.3em;
-    margin-bottom: 0;
-}
-
-.headline p {
-    text-wrap: balance;
-}
-
-#fun {
-    display: inline-block;
-    cursor: pointer;
-    transition:
-        all .3s cubic-bezier(.68, -0.55, .27, 1.55);
-}
-
-.headline h1:hover #fun {
-    scale: 1.1;
-    rotate: 3deg;
-    color: #fd5;
-}
-
 .content *:first-child {
     margin-top: 0;
 }

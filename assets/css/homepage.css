@@ -1,0 +1,56 @@
+.headline {
+    margin-bottom: 3em;
+    font-size: 1.3em;
+}
+
+.headline h1 {
+    font-size: 2.3em;
+    margin-bottom: 0;
+}
+
+.headline p {
+    text-wrap: balance;
+}
+
+#fun {
+    --scroll-target: calc(var(--vh, 1000) / 2);
+    --progress: calc(min(1,
+        var(--scroll-y, 1000) / var(--scroll-target)
+    ));
+    --scale-amount: .1;
+    --rotate-amount: 4deg;
+    --lightness-amount: 37%;
+    display: inline-block;
+    cursor: pointer;
+    scale: calc(1 + min(
+        var(--scale-amount),
+        var(--scale-amount) * var(--progress)
+    ));
+    rotate: calc(min(
+        var(--rotate-amount),
+        var(--rotate-amount) * var(--progress)
+    ));
+    color: hsl(
+        48,
+        100%,
+        calc(
+            100% - min(
+                var(--lightness-amount),
+                var(--lightness-amount) * var(--progress)
+            )
+        )
+    );
+    transition:
+        all .3s cubic-bezier(.77, -0.32, .16, 1.31);
+}
+
+.headline h1:hover #fun {
+    scale: calc(1 + var(--scale-amount));
+    rotate: var(--rotate-amount);
+    color: #fd5;
+    color: hsl(
+        48,
+        100%,
+        calc(100% - var(--lightness-amount))
+    );
+}
